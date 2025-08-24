@@ -1,0 +1,13 @@
+[project]
+name = "anti_cocoon"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "notebook>=7.4.5",
+    "playwright>=1.54.0",
+    "pydantic>=2.11.7",
+    "schedule>=1.2.2",
+    "sqlmodel>=0.0.24",
+]
