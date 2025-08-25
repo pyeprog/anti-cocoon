@@ -77,6 +77,7 @@ class BiliApp:
         return SearchPage(await new_page_info.value, timeout=self._timeout)
 
     async def search_videos(self, keyword: str, n_page: int = 5):
+        print(f"search on {keyword}")
         videos: list[Video] = []
 
         async with self.context() as context:
@@ -85,9 +86,11 @@ class BiliApp:
             for i in range(n_page):
                 print(f"working on page {i + 1}")
 
-                async for video_card in search_page.video_cards_iter():
-                    if video := await video_card_to_video(video_card, source="search", timeout=self._timeout):
-                        videos.append(video)
+                cur_videos = await asyncio.gather(
+                    *[video_card_to_video(video_card) for video_card in await search_page.video_cards()]
+                )
+
+                videos.extend(list(filter(bool, cur_videos)))  # type: ignore
 
                 await search_page.to_next_page()
 

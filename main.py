@@ -31,7 +31,7 @@ def main():
 if __name__ == "__main__":
     import schedule
 
-    schedule.every(5).minutes.do(main)
+    schedule.every(4).hours.do(main)
 
     while True:
         schedule.run_pending()

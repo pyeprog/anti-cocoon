@@ -19,9 +19,3 @@ class SearchPage:
                 self._page.locator("div.video-list >> div.bili-video-card__wrap"), timeout=self._timeout
             )
         ]
-
-    async def video_cards_iter(self):
-        for elem in await safe_all(
-            self._page.locator("div.video-list >> div.bili-video-card__wrap"), timeout=self._timeout
-        ):
-            yield VideoCard(elem)
