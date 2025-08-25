@@ -9,7 +9,7 @@ async def safe_all(loc: Locator, timeout: int = 3000):
     try:
         await loc.first.wait_for(state="visible", timeout=timeout)
         return await loc.all()
-    except:
+    except Exception:
         return []
 
 
