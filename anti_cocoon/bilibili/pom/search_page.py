@@ -1,6 +1,6 @@
 from playwright.async_api._generated import Page
 
-from anti_cocoon.bilibili.video_card import VideoCard
+from anti_cocoon.bilibili.pom.video_card import VideoCard
 from anti_cocoon.util import safe_all
 
 

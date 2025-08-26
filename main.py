@@ -1,17 +1,13 @@
 import asyncio
-from datetime import datetime
-from pathlib import Path
 import time
+from datetime import datetime
 
-
-from anti_cocoon.bilibili.app import BiliApp
+from anti_cocoon.bilibili.app.search import ApiSearch
 from anti_cocoon.util import dump
 
 
 async def search_from_bili(keyword: str, n_pages: int = 3, do_dump: bool = True):
-    results = await BiliApp(context_storage=Path(".context/bili.json"), headless=True, timeout=5000).search_videos(
-        keyword=keyword, n_page=n_pages
-    )
+    results = await ApiSearch(delay_between_pages=1000).videos(keyword=keyword, n_page=n_pages)
 
     if do_dump:
         dump("./.data/bili.sqlite.db", results)  # type: ignore

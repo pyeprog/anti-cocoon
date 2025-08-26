@@ -1,4 +1,4 @@
-from anti_cocoon.bilibili.video_card import VideoCard
+from anti_cocoon.bilibili.pom.video_card import VideoCard
 
 
 from playwright.async_api._generated import Locator
@@ -6,6 +6,8 @@ from playwright.async_api._generated import Locator
 
 from contextlib import suppress
 from datetime import datetime, timedelta
+
+from anti_cocoon.util import parse_duration_text
 
 
 class VideoCardParser:
@@ -66,7 +68,7 @@ class VideoCardParser:
         async def _():
             return await self._video_card.duration.text_content(timeout=self._timeout)
 
-        return self._parse_duration_text(await self._text(_, default="0"))
+        return parse_duration_text(await self._text(_, default="0"))
 
     def _parse_date_text(self, date_text: str) -> datetime:
         # Parse date string
@@ -102,17 +104,3 @@ class VideoCardParser:
         assert isinstance(view_text, str)
         unit = 10000 if view_text.count("万") else 1
         return int(float(view_text.strip().replace("万", "")) * unit)
-
-    def _parse_duration_text(self, duration_text: str) -> int:
-        if not duration_text:
-            return 0
-
-        parts = duration_text.strip().split(":")
-        duration = 0
-
-        unit = 1
-        for part in parts[::-1]:
-            duration += int(part) * unit
-            unit *= 60
-
-        return duration
